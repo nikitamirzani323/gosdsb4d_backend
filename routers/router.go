@@ -28,5 +28,9 @@ func Init() *fiber.App {
 	app.Post("/api/detailadmin", middleware.JWTProtected(), controllers.AdminDetail)
 	app.Post("/api/saveadmin", middleware.JWTProtected(), controllers.AdminSave)
 
+	app.Post("/api/sdsbday", middleware.JWTProtected(), controllers.Sdsbdayhome)
+	app.Post("/api/savesdsbday", middleware.JWTProtected(), controllers.SdsbdaySave)
+	app.Post("/api/savegeneratorsdsbday", middleware.JWTProtected(), controllers.SdsbdayGeneratorSave)
+
 	return app
 }

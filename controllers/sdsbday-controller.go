@@ -13,46 +13,36 @@ import (
 	"github.com/nikitamirzani323/gosdsb4d_backend/models"
 )
 
-func Adminhome(c *fiber.Ctx) error {
-	field_redis := "LISTADMIN_SDSB4D_BACKEND"
+func Sdsbdayhome(c *fiber.Ctx) error {
+	field_redis := "LISTSDSBDAY_SDSB4D"
 
-	var obj entities.Responseredis_adminhome
-	var arraobj []entities.Responseredis_adminhome
-	var obj_listruleadmin entities.Responseredis_adminrule
-	var arraobj_listruleadmin []entities.Responseredis_adminrule
+	var obj entities.Responseredis_sdsbday
+	var arraobj []entities.Responseredis_sdsbday
 	render_page := time.Now()
 	resultredis, flag := helpers.GetRedis(field_redis)
 	jsonredis := []byte(resultredis)
+	message_RD, _ := jsonparser.GetString(jsonredis, "message")
 	record_RD, _, _, _ := jsonparser.Get(jsonredis, "record")
-	listruleadmin_RD, _, _, _ := jsonparser.Get(jsonredis, "listruleadmin")
 	jsonparser.ArrayEach(record_RD, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
-		admin_username, _ := jsonparser.GetString(value, "admin_username")
-		admin_nama, _ := jsonparser.GetString(value, "admin_nama")
-		admin_rule, _ := jsonparser.GetString(value, "admin_rule")
-		admin_joindate, _ := jsonparser.GetString(value, "admin_joindate")
-		admin_timezone, _ := jsonparser.GetString(value, "admin_timezone")
-		admin_lastlogin, _ := jsonparser.GetString(value, "admin_lastlogin")
-		admin_lastipaddres, _ := jsonparser.GetString(value, "admin_lastipaddres")
-		admin_status, _ := jsonparser.GetString(value, "admin_status")
+		sdsbday_id, _ := jsonparser.GetInt(value, "sdsbday_id")
+		sdsbday_date, _ := jsonparser.GetString(value, "sdsbday_date")
+		sdsbday_prize1, _ := jsonparser.GetString(value, "sdsbday_prize1")
+		sdsbday_prize2, _ := jsonparser.GetString(value, "sdsbday_prize2")
+		sdsbday_prize3, _ := jsonparser.GetString(value, "sdsbday_prize3")
+		sdsbday_create, _ := jsonparser.GetString(value, "sdsbday_create")
+		sdsbday_update, _ := jsonparser.GetString(value, "sdsbday_update")
 
-		obj.Admin_username = admin_username
-		obj.Admin_nama = admin_nama
-		obj.Admin_rule = admin_rule
-		obj.Admin_joindate = admin_joindate
-		obj.Admin_timezone = admin_timezone
-		obj.Admin_lastlogin = admin_lastlogin
-		obj.Admin_lastipaddres = admin_lastipaddres
-		obj.Admin_status = admin_status
+		obj.Sdsbday_id = int(sdsbday_id)
+		obj.Sdsbday_date = sdsbday_date
+		obj.Sdsbday_prize1 = sdsbday_prize1
+		obj.Sdsbday_prize2 = sdsbday_prize2
+		obj.Sdsbday_prize3 = sdsbday_prize3
+		obj.Sdsbday_create = sdsbday_create
+		obj.Sdsbday_update = sdsbday_update
 		arraobj = append(arraobj, obj)
 	})
-	jsonparser.ArrayEach(listruleadmin_RD, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
-		adminrule_name, _ := jsonparser.GetString(value, "adminrule_idruleadmin")
-
-		obj_listruleadmin.Adminrule_idrule = adminrule_name
-		arraobj_listruleadmin = append(arraobj_listruleadmin, obj_listruleadmin)
-	})
 	if !flag {
-		result, err := models.Fetch_adminHome()
+		result, err := models.Fetch_sdsbdayHome()
 		if err != nil {
 			c.Status(fiber.StatusBadRequest)
 			return c.JSON(fiber.Map{
@@ -61,62 +51,22 @@ func Adminhome(c *fiber.Ctx) error {
 				"record":  nil,
 			})
 		}
-		helpers.SetRedis(field_redis, result, 5*time.Minute)
-		log.Println("ADMIN MYSQL")
+		helpers.SetRedis(field_redis, result, 0)
+		log.Println("SDSBDAY MYSQL")
 		return c.JSON(result)
 	} else {
-		log.Println("ADMIN CACHE")
+		log.Println("SDSBDAY CACHE")
 		return c.JSON(fiber.Map{
-			"status":        fiber.StatusOK,
-			"message":       "Success",
-			"record":        arraobj,
-			"listruleadmin": arraobj_listruleadmin,
-			"time":          time.Since(render_page).String(),
+			"status":  fiber.StatusOK,
+			"message": message_RD,
+			"record":  arraobj,
+			"time":    time.Since(render_page).String(),
 		})
 	}
 }
-func AdminDetail(c *fiber.Ctx) error {
+func SdsbdaySave(c *fiber.Ctx) error {
 	var errors []*helpers.ErrorResponse
-	client := new(entities.Controller_admindetail)
-	validate := validator.New()
-	if err := c.BodyParser(client); err != nil {
-		c.Status(fiber.StatusBadRequest)
-		return c.JSON(fiber.Map{
-			"status":  fiber.StatusBadRequest,
-			"message": err.Error(),
-			"record":  nil,
-		})
-	}
-	err := validate.Struct(client)
-	if err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			var element helpers.ErrorResponse
-			element.Field = err.StructField()
-			element.Tag = err.Tag()
-			errors = append(errors, &element)
-		}
-		c.Status(fiber.StatusBadRequest)
-		return c.JSON(fiber.Map{
-			"status":  fiber.StatusBadRequest,
-			"message": "validation",
-			"record":  errors,
-		})
-	}
-
-	result, err := models.Fetch_adminDetail(client.Username)
-	if err != nil {
-		c.Status(fiber.StatusBadRequest)
-		return c.JSON(fiber.Map{
-			"status":  fiber.StatusBadRequest,
-			"message": err.Error(),
-			"record":  nil,
-		})
-	}
-	return c.JSON(result)
-}
-func AdminSave(c *fiber.Ctx) error {
-	var errors []*helpers.ErrorResponse
-	client := new(entities.Controller_adminsave)
+	client := new(entities.Controller_sdsbdaysave)
 	validate := validator.New()
 	if err := c.BodyParser(client); err != nil {
 		c.Status(fiber.StatusBadRequest)
@@ -148,10 +98,9 @@ func AdminSave(c *fiber.Ctx) error {
 	temp_decp := helpers.Decryption(name)
 	client_admin, _ := helpers.Parsing_Decry(temp_decp, "==")
 
-	result, err := models.Save_adminHome(
+	result, err := models.Save_sdsbdayHome(
 		client_admin,
-		client.Username, client.Password, client.Nama,
-		client.Rule, client.Status, client.Sdata)
+		client.Tanggal, client.Sdata, client.Idrecord)
 	if err != nil {
 		c.Status(fiber.StatusBadRequest)
 		return c.JSON(fiber.Map{
@@ -160,8 +109,68 @@ func AdminSave(c *fiber.Ctx) error {
 			"record":  nil,
 		})
 	}
-	field_redis := "LISTADMIN_SDSB4D_BACKEND"
+	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
-	log.Printf("Redis Delete BACKEND LISTADMIN_SDSB4D_BACKEND : %d", val_master)
+	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	return c.JSON(result)
+}
+func SdsbdayGeneratorSave(c *fiber.Ctx) error {
+	var errors []*helpers.ErrorResponse
+	client := new(entities.Controller_sdsbdayprize1save)
+	validate := validator.New()
+	if err := c.BodyParser(client); err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": err.Error(),
+			"record":  nil,
+		})
+	}
+
+	err := validate.Struct(client)
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			var element helpers.ErrorResponse
+			element.Field = err.StructField()
+			element.Tag = err.Tag()
+			errors = append(errors, &element)
+		}
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": "validation",
+			"record":  errors,
+		})
+	}
+	user := c.Locals("jwt").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"].(string)
+	temp_decp := helpers.Decryption(name)
+	client_admin, _ := helpers.Parsing_Decry(temp_decp, "==")
+
+	field := ""
+	switch client.Tipe {
+	case "prize1":
+		field = "prize1_sdsb4dday"
+	case "prize2":
+		field = "prize2_sdsb4dday"
+	case "prize3":
+		field = "prize3_sdsb4dday"
+	}
+
+	result, err := models.Save_sdsbdayGenerator(
+		client_admin,
+		field, client.Prize, client.Sdata, client.Idrecord)
+	if err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": err.Error(),
+			"record":  nil,
+		})
+	}
+	field_redis := "LISTSDSBDAY_SDSB4D"
+	val_master := helpers.DeleteRedis(field_redis)
+	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
 	return c.JSON(result)
 }

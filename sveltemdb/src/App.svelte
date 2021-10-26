@@ -4,6 +4,7 @@
 	import Navbar from "./components/Navbar.svelte";
 	import Company from "./pages/company/Company.svelte";
 	import Admin from "./pages/admin/Admin.svelte";
+	import Sdsb4dday from "./pages/sdsb4dday/Sdsb4dday.svelte";
 	import Login from "./pages/Login.svelte";
 	import NotFound from "./pages/Notfound.svelte";
 	export let table_header_font
@@ -23,6 +24,13 @@
 		routes = {
 			"/": wrap({
 				component: Company,
+			}),
+			"/sdsb4dday": wrap({
+				component: Sdsb4dday,
+				props:{
+					table_header_font:table_header_font,
+					table_body_font:table_body_font
+				}
 			}),
 			"/admin": wrap({
 				component: Admin,

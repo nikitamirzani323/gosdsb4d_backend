@@ -37,42 +37,14 @@
                             role="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false" style="font-size: 13px;">
-                            MOVIE
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" use:link href="/periode" style="font-size: 13px;">PERIODE</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" use:link href="/prediksi" style="font-size: 13px;">PREDIKSI</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" use:link href="/reportwinlose" style="font-size: 13px;"
-                                >REPORT WINLOSE</a
-                                >
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            id="navbarDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px;">
                             KELUARAN
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" use:link href="/periode" style="font-size: 13px;">PERIODE</a>
+                                <a class="dropdown-item" use:link href="/sdsb4dday" style="font-size: 13px;">SDSB4D - DAY</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" use:link href="/prediksi" style="font-size: 13px;">PREDIKSI</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" use:link href="/reportwinlose" style="font-size: 13px;"
-                                >REPORT WINLOSE</a
-                                >
+                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">SDDB4D - NIGHT</a>
                             </li>
                         </ul>
                     </li>

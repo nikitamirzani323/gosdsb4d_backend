@@ -74,7 +74,6 @@ func CheckDB(table, field, value string) bool {
 					FROM ` + table + ` 
 					WHERE ` + field + ` = ? 
 				`
-	log.Println(sql_db)
 	row := con.QueryRowContext(ctx, sql_db, value)
 	switch e := row.Scan(&field); e {
 	case sql.ErrNoRows:
@@ -83,7 +82,7 @@ func CheckDB(table, field, value string) bool {
 	case nil:
 		flag = true
 	default:
-		panic(e)
+		flag = false
 	}
 	return flag
 }
