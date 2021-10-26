@@ -152,6 +152,27 @@
             css_loader = "display: none;";
         }, 1000);
     }
+    async function handleGeneratorAutomation(tipe,prize) {
+        const res = await fetch("/api/generatornumber", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            msgloader = json.message;
+            RefreshHalaman()
+        } else if(json.status == 403){
+            alert(json.message)
+        } else {
+            msgloader = json.message;
+        }
+        setTimeout(function () {
+            css_loader = "display: none;";
+        }, 1000);
+    }
     function clearField(){
         $form.date_keluaran = ""
     }
@@ -163,8 +184,6 @@
     }
     function generate(field){
         let numbergenerate = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-        
-        
         switch(field){
             case "prize1":
                 prize1 = numbergenerate
@@ -184,6 +203,8 @@
                 break;
             case "REFRESH":
                 RefreshHalaman();break;
+            case "GENERATOR":
+                handleGeneratorAutomation();break;
             case "SAVE":
                 handleSubmit();break;
         }
@@ -225,6 +246,11 @@
                 on:click={callFunction}
                 button_function="REFRESH"
                 button_title="Refresh"
+                button_css="btn-primary"/>
+            <Button
+                on:click={callFunction}
+                button_function="GENERATOR"
+                button_title="Generator"
                 button_css="btn-primary"/>
             <Panel
                 card_title="{title_page}"

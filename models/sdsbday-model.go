@@ -183,3 +183,70 @@ func Save_sdsbdayGenerator(admin, field, prize, sData string, idrecord int) (hel
 
 	return res, nil
 }
+func Save_Generator(admin string) (helpers.Response, error) {
+	var res helpers.Response
+	msg := "Failed"
+	con := db.CreateCon()
+	ctx := context.Background()
+	tglnow, _ := goment.New()
+	render_page := time.Now()
+	flag := false
+
+	for i := 0; i <= 365; i++ {
+		tglnow2, _ := goment.New("2020-01-01")
+		tanggal := tglnow2.Add(i, "days").Format("YYYY-MM-DD")
+		flag = CheckDB(configs.DB_tbl_trx_sdsb4d_day, "datesdsb4dday", tanggal)
+		if !flag {
+			sql_insert := `
+			insert into
+			` + configs.DB_tbl_trx_sdsb4d_day + ` (
+				idsdsb4dday , datesdsb4dday, prize1_sdsb4dday, prize2_sdsb4dday, prize3_sdsb4dday, 
+				create_sdsb4dday, createdate_sdsb4dday
+			) values (
+				? ,?, ?, ?, ?,
+				?, ?
+			)
+		`
+			stmt_insert, e_insert := con.PrepareContext(ctx, sql_insert)
+			helpers.ErrorCheck(e_insert)
+			defer stmt_insert.Close()
+
+			prize_1 := helpers.GenerateNumber(4)
+			prize_2 := helpers.GenerateNumber(4)
+			prize_3 := helpers.GenerateNumber(4)
+			field_column := configs.DB_tbl_trx_sdsb4d_day + tglnow.Format("YYYY")
+			idrecord_counter := Get_counter(field_column)
+			res_newrecord, e_newrecord := stmt_insert.ExecContext(
+				ctx,
+				tglnow.Format("YY")+strconv.Itoa(idrecord_counter),
+				tanggal,
+				prize_1,
+				prize_2,
+				prize_3,
+				admin,
+				tglnow.Format("YYYY-MM-DD HH:mm:ss"))
+			helpers.ErrorCheck(e_newrecord)
+			insert, e := res_newrecord.RowsAffected()
+			helpers.ErrorCheck(e)
+			if insert > 0 {
+				flag = true
+				msg = "Succes"
+				log.Println("Data Berhasil di save")
+			}
+		}
+	}
+
+	if flag {
+		res.Status = fiber.StatusOK
+		res.Message = msg
+		res.Record = nil
+		res.Time = time.Since(render_page).String()
+	} else {
+		res.Status = fiber.StatusBadRequest
+		res.Message = msg
+		res.Record = nil
+		res.Time = time.Since(render_page).String()
+	}
+
+	return res, nil
+}

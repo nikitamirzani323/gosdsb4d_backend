@@ -174,3 +174,24 @@ func SdsbdayGeneratorSave(c *fiber.Ctx) error {
 	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
 	return c.JSON(result)
 }
+func SdsbdayGeneratorNumber(c *fiber.Ctx) error {
+	user := c.Locals("jwt").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"].(string)
+	temp_decp := helpers.Decryption(name)
+	client_admin, _ := helpers.Parsing_Decry(temp_decp, "==")
+
+	result, err := models.Save_Generator(client_admin)
+	if err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": err.Error(),
+			"record":  nil,
+		})
+	}
+	field_redis := "LISTSDSBDAY_SDSB4D"
+	val_master := helpers.DeleteRedis(field_redis)
+	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	return c.JSON(result)
+}
