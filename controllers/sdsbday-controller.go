@@ -112,6 +112,9 @@ func SdsbdaySave(c *fiber.Ctx) error {
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
 	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
+	val_api := helpers.DeleteRedis(field_redis_api)
+	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }
 func SdsbdayGeneratorSave(c *fiber.Ctx) error {
@@ -172,6 +175,9 @@ func SdsbdayGeneratorSave(c *fiber.Ctx) error {
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
 	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
+	val_api := helpers.DeleteRedis(field_redis_api)
+	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }
 func SdsbdayGeneratorNumber(c *fiber.Ctx) error {
@@ -193,5 +199,8 @@ func SdsbdayGeneratorNumber(c *fiber.Ctx) error {
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
 	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
+	val_api := helpers.DeleteRedis(field_redis_api)
+	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }

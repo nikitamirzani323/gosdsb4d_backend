@@ -28,7 +28,7 @@ func Fetch_sdsbdayHome() (helpers.Response, error) {
 			prize1_sdsb4dday , prize2_sdsb4dday, prize3_sdsb4dday, 
 			create_sdsb4dday, COALESCE(createdate_sdsb4dday,""), update_sdsb4dday, COALESCE(updatedate_sdsb4dday,"")  
 			FROM ` + configs.DB_tbl_trx_sdsb4d_day + ` 
-			ORDER BY datesdsb4dday DESC 
+			ORDER BY datesdsb4dday DESC LIMIT 365 
 		`
 
 	row, err := con.QueryContext(ctx, sql_select)
@@ -192,8 +192,8 @@ func Save_Generator(admin string) (helpers.Response, error) {
 	render_page := time.Now()
 	flag := false
 
-	for i := 0; i <= 365; i++ {
-		tglnow2, _ := goment.New("2020-01-01")
+	for i := 0; i <= 299; i++ {
+		tglnow2, _ := goment.New("2021-01-01")
 		tanggal := tglnow2.Add(i, "days").Format("YYYY-MM-DD")
 		flag = CheckDB(configs.DB_tbl_trx_sdsb4d_day, "datesdsb4dday", tanggal)
 		if !flag {
