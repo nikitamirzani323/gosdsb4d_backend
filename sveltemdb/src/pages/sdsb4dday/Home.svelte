@@ -113,7 +113,7 @@
             if (json.status == 200) {
                 set(ref(db, 'sdsb4dday'), {
                     datedraw: dayjs(date_keluaran).format("DD-MMM-YYYY"),
-                    nextdraw: date_keluaran,
+                    nextdraw: dayjs(date_keluaran).add(1,'day').format("YYYY-MM-DD"),
                     prize1: "",
                     prize2: "",
                     prize3: "",
@@ -159,7 +159,7 @@
                     prize1_flag = true;
                     set(ref(db, 'sdsb4dday'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
-                        nextdraw: tanggal_keluaran,
+                        nextdraw: dayjs(tanggal_keluaran).add(1,'day').format("YYYY-MM-DD"),
                         prize1: prize,
                         prize2: prize2,
                         prize3: prize3,
@@ -170,7 +170,7 @@
                     prize2_flag = true;
                     set(ref(db, 'sdsb4dday'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
-                        nextdraw: tanggal_keluaran,
+                        nextdraw: dayjs(tanggal_keluaran).add(1,'day').format("YYYY-MM-DD"),
                         prize1: prize1,
                         prize2: prize,
                         prize3: prize3,
@@ -181,7 +181,7 @@
                     prize3_flag = true;
                     set(ref(db, 'sdsb4dday'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
-                        nextdraw: tanggal_keluaran,
+                        nextdraw: dayjs(tanggal_keluaran).add(1,'day').format("YYYY-MM-DD"),
                         prize1: prize1,
                         prize2: prize2,
                         prize3: prize,
