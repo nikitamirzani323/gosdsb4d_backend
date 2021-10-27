@@ -33,5 +33,10 @@ func Init() *fiber.App {
 	app.Post("/api/savegeneratorsdsbday", middleware.JWTProtected(), controllers.SdsbdayGeneratorSave)
 	app.Post("/api/generatornumber", middleware.JWTProtected(), controllers.SdsbdayGeneratorNumber)
 
+	app.Post("/api/sdsbnight", middleware.JWTProtected(), controllers.Sdsbnighthome)
+	app.Post("/api/savesdsbnight", middleware.JWTProtected(), controllers.SdsbnightSave)
+	app.Post("/api/savegeneratorsdsbnight", middleware.JWTProtected(), controllers.SdsbnightGeneratorSave)
+	app.Post("/api/generatornumbernight", middleware.JWTProtected(), controllers.SdsbnightGeneratorNumber)
+
 	return app
 }

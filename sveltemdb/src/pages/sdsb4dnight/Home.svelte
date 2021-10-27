@@ -27,7 +27,7 @@
 	export let listHome = []
 	export let totalrecord = 0
     let dispatch = createEventDispatcher();
-	let title_page = "SDSB4D - DAY"
+	let title_page = "SDSB4D - NIGHT"
     let sData = "";
     let myModal_newentry = "";
     let tanggal_keluaran = "";
@@ -96,7 +96,7 @@
             msg = "The Date is required"
         }
         if(flag){
-            const res = await fetch("/api/savesdsbday", {
+            const res = await fetch("/api/savesdsbnight", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -104,14 +104,14 @@
                 },
                 body: JSON.stringify({
                     sdata: sData,
-                    page:"SDSB4DDAY-SAVE",
+                    page:"SDSB4DNIGHT-SAVE",
                     idrecord: parseInt(0),
                     tanggal: date_keluaran,
                 }),
             });
             const json = await res.json();
             if (json.status == 200) {
-                set(ref(db, 'sdsb4dday'), {
+                set(ref(db, 'sdsb4dnight'), {
                     datedraw: dayjs(date_keluaran).format("DD-MMM-YYYY"),
                     nextdraw: date_keluaran,
                     prize1: "",
@@ -135,7 +135,7 @@
         }
     }
     async function handleSaveGenerator(tipe,prize) {
-        const res = await fetch("/api/savegeneratorsdsbday", {
+        const res = await fetch("/api/savegeneratorsdsbnight", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -143,7 +143,7 @@
             },
             body: JSON.stringify({
                 sdata: sData,
-                page:"SDSB4DDAY-SAVE",
+                page:"SDSB4DNIGHT-SAVE",
                 idrecord: parseInt(idrecord),
                 tipe: tipe,
                 prize: prize.toString(),
@@ -157,7 +157,7 @@
                 case "prize1":
                     prize1_save_flag = true;
                     prize1_flag = true;
-                    set(ref(db, 'sdsb4dday'), {
+                    set(ref(db, 'sdsb4dnight'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
                         nextdraw: tanggal_keluaran,
                         prize1: prize,
@@ -168,7 +168,7 @@
                 case "prize2":
                     prize2_save_flag = true;
                     prize2_flag = true;
-                    set(ref(db, 'sdsb4dday'), {
+                    set(ref(db, 'sdsb4dnight'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
                         nextdraw: tanggal_keluaran,
                         prize1: prize1,
@@ -179,7 +179,7 @@
                 case "prize3":
                     prize3_save_flag = true;
                     prize3_flag = true;
-                    set(ref(db, 'sdsb4dday'), {
+                    set(ref(db, 'sdsb4dnight'), {
                         datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
                         nextdraw: tanggal_keluaran,
                         prize1: prize1,
@@ -199,7 +199,7 @@
         }, 1000);
     }
     async function handleGeneratorAutomation(tipe,prize) {
-        const res = await fetch("/api/generatornumber", {
+        const res = await fetch("/api/generatornumbernight", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -316,17 +316,17 @@
                                         <td NOWRAP style="text-align: center;vertical-align: top;cursor:pointer;">
                                             <i 
                                                 on:click={() => {
-                                                    EditData(rec.sdsbday_id,rec.sdsbday_date,rec.sdsbday_prize1,rec.sdsbday_prize2,rec.sdsbday_prize3);
+                                                    EditData(rec.sdsbnight_id,rec.sdsbnight_date,rec.sdsbnight_prize1,rec.sdsbnight_prize2,rec.sdsbnight_prize3);
                                                 }} 
                                                 class="bi bi-pencil"></i>
                                         </td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_no}</td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_date}</td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_prize1}</td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_prize2}</td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_prize3}</td>
-                                        <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_create}</td>
-                                        <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.sdsbday_update}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_no}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_date}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_prize1}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_prize2}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_prize3}</td>
+                                        <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_create}</td>
+                                        <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">{rec.sdsbnight_update}</td>
                                     </tr>
                                 {/each}
                             </tbody>
