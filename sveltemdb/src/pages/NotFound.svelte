@@ -1,1 +1,3 @@
-<h1>NOT FOUND</h1>
+<center>
+    <a href="/">Back</a>
+</center>
