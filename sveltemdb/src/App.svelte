@@ -2,12 +2,12 @@
 	import Router from "svelte-spa-router";
 	import { wrap } from "svelte-spa-router/wrap";
 	import Navbar from "./components/Navbar.svelte";
-	import Company from "./pages/company/Company.svelte";
+	import Dashboard from "./pages/dashboard/Dashboard.svelte";
 	import Admin from "./pages/admin/Admin.svelte";
 	import Sdsb4dday from "./pages/sdsb4dday/Sdsb4dday.svelte";
 	import Sdsb4dnight from "./pages/sdsb4dnight/Sdsb4dnight.svelte";
 	import Login from "./pages/Login.svelte";
-	import NotFound from "./pages/Notfound.svelte";
+	import NotFound from  "./pages/NotFound.svelte"
 	export let table_header_font
 	export let table_body_font
 	let token = localStorage.getItem("token");
@@ -24,7 +24,11 @@
 		isNav = true;
 		routes = {
 			"/": wrap({
-				component: Company,
+				props:{
+					table_header_font:table_header_font,
+					table_body_font:table_body_font
+				},
+				component: Dashboard,
 			}),
 			"/sdsb4dday": wrap({
 				component: Sdsb4dday,
