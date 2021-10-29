@@ -233,6 +233,8 @@ func Save_Generator(admin string) (helpers.Response, error) {
 				msg = "Succes"
 				log.Println("Data Berhasil di save")
 			}
+		} else {
+			break
 		}
 	}
 
