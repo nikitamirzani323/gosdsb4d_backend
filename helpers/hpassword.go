@@ -9,7 +9,7 @@ import (
 	s "strings"
 	"time"
 
-	"github.com/nikitamirzani323/gosdsb4d_backend/configs"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/configs"
 	"golang.org/x/crypto/bcrypt"
 )
 

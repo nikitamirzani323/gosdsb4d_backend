@@ -5,11 +5,11 @@ import (
 	"log"
 	"time"
 
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/configs"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/db"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/helpers"
 	"github.com/gofiber/fiber/v2"
-	"github.com/nikitamirzani323/gosdsb4d_backend/configs"
-	"github.com/nikitamirzani323/gosdsb4d_backend/db"
-	"github.com/nikitamirzani323/gosdsb4d_backend/entities"
-	"github.com/nikitamirzani323/gosdsb4d_backend/helpers"
 )
 
 func Fetch_adminruleHome() (helpers.Response, error) {

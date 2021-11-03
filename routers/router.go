@@ -1,13 +1,13 @@
 package routers
 
 import (
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/controllers"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/nikitamirzani323/gosdsb4d_backend/controllers"
-	"github.com/nikitamirzani323/gosdsb4d_backend/middleware"
 )
 
 func Init() *fiber.App {

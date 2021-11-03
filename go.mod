@@ -1,4 +1,4 @@
-module github.com/nikitamirzani323/gosdsb4d_backend
+module bitbucket.org/isbtotogroup/sdsb4d-backend
 
 go 1.17
 

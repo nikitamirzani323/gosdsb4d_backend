@@ -4,13 +4,13 @@ import (
 	"log"
 	"time"
 
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/helpers"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/models"
 	"github.com/buger/jsonparser"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/nikitamirzani323/gosdsb4d_backend/entities"
-	"github.com/nikitamirzani323/gosdsb4d_backend/helpers"
-	"github.com/nikitamirzani323/gosdsb4d_backend/models"
 )
 
 func Adminrulehome(c *fiber.Ctx) error {

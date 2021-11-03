@@ -6,9 +6,9 @@ import (
 	"errors"
 	"log"
 
-	"github.com/nikitamirzani323/gosdsb4d_backend/configs"
-	"github.com/nikitamirzani323/gosdsb4d_backend/db"
-	"github.com/nikitamirzani323/gosdsb4d_backend/helpers"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/configs"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/db"
+	"bitbucket.org/isbtotogroup/sdsb4d-backend/helpers"
 	"github.com/nleeper/goment"
 )
 
