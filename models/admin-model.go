@@ -25,7 +25,7 @@ func Fetch_adminHome() (helpers.ResponseAdmin, error) {
 
 	sql_select := `SELECT 
 			username , name, idadmin,
-			statuslogin, lastlogin, joindate, 
+			statuslogin, COALESCE(lastlogin,""), COALESCE(joindate,""), 
 			ipaddress, timezone  
 			FROM ` + configs.DB_tbl_admin + ` 
 			ORDER BY lastlogin DESC 
@@ -51,9 +51,7 @@ func Fetch_adminHome() (helpers.ResponseAdmin, error) {
 		if statuslogin_db == "Y" {
 			statuslogin_db = "ACTIVE"
 		}
-		if lastlogin_db == "0000-00-00 00:00:00" {
-			lastlogin_db = ""
-		}
+
 		obj.Username = username_db
 		obj.Nama = name_db
 		obj.Rule = idadminlevel_db

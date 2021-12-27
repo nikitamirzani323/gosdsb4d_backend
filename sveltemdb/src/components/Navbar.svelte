@@ -19,16 +19,13 @@
                 data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse"
                 aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" />
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" use:link href="/" style="font-size: 13px;"
-                        >DASHBOARD</a
-                        >
+                        <a class="nav-link active" aria-current="page" use:link href="/" style="font-size: 13px;">DASHBOARD</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a
@@ -47,6 +44,9 @@
                                 <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">SDDB4D - NIGHT</a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" use:link href="/prediksi" style="font-size: 13px;">PREDIKSI</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a

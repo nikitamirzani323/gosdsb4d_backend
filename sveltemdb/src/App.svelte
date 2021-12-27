@@ -7,6 +7,7 @@
 	import Adminrule from "./pages/adminrule/Adminrule.svelte";
 	import Sdsb4dday from "./pages/sdsb4dday/Sdsb4dday.svelte";
 	import Sdsb4dnight from "./pages/sdsb4dnight/Sdsb4dnight.svelte";
+	import Prediksi from "./pages/prediksi/Prediksi.svelte";
 	import Login from "./pages/Login.svelte";
 	import NotFound from "./pages/NotFound.svelte";
 	export let table_header_font;
@@ -30,6 +31,13 @@
 					table_body_font: table_body_font,
 				},
 				component: Dashboard,
+			}),
+			"/prediksi": wrap({
+				component: Prediksi,
+				props: {
+					table_header_font: table_header_font,
+					table_body_font: table_body_font,
+				},
 			}),
 			"/sdsb4dday": wrap({
 				component: Sdsb4dday,
