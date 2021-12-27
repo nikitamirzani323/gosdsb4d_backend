@@ -14,6 +14,8 @@
     let result = [];
     let pasaran = "";
     let nomorprediksi = "";
+    let subtotal_company = 0;
+    let subtotal_company_css = "";
     let css_loader = "display: none;";
     let msgloader = "";
    
@@ -51,10 +53,13 @@
                 msgloader = json.message;
                 let record = json.record;
                 let no = 0
+                subtotal_company= 0;
                 for (var i = 0; i < record.length; i++) {
                     let css_bet = ""
                     let css_subtotal = ""
                     let css_subtotalwin = ""
+                    let company_total = parseInt(record[i]["prediksi_subtotalwin"]);
+                    subtotal_company = subtotal_company + company_total;
                     if(parseInt(record[i]["prediksi_totalbet"]) > 0 ){
                         css_bet = "color:blue;font-weight:bold;";
                     }else{
@@ -74,6 +79,7 @@
                     result = [
                         ...result,
                         {
+                            prediksi_no: no,
                             prediksi_idcompany: record[i]["prediksi_idcompany"],
                             prediksi_nmcompany: record[i]["prediksi_nmcompany"],
                             prediksi_totalbet: record[i]["prediksi_totalbet"],
@@ -85,6 +91,12 @@
                         },
                     ];
                 }
+                if(parseInt(subtotal_company)>0){
+                    subtotal_company_css = "color:blue;font-weight:bold;"
+                }else{
+                    subtotal_company_css = "color:red;font-weight:bold;"
+                }
+                
             } else if(json.status == 403){
                 alert(json.message)
             } else {
@@ -166,15 +178,17 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th style="text-align:left;vertical-align:top;font-size:14px;border:none;">AGEN</th>
-                                <th style="text-align:right;vertical-align:top;font-size:14px;border:none;">TOTAL BET</th>
-                                <th style="text-align:right;vertical-align:top;font-size:14px;border:none;">MEMBER WINLOSE</th>
-                                <th style="text-align:right;vertical-align:top;font-size:14px;border:none;">COMPANY WINLOSE</th>
+                                <th width="1%" style="text-align:left;vertical-align:top;font-size:14px;border:none;">NO</th>
+                                <th width="*" style="text-align:left;vertical-align:top;font-size:14px;border:none;">AGEN</th>
+                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">TOTAL BET</th>
+                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">MEMBER WINLOSE</th>
+                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">COMPANY WINLOSE</th>
                             </tr>
                         </thead>
                         <tbody>
                             {#each result as rec }
                             <tr>
+                                <td style="text-align:center;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_no}</td>
                                 <td style="text-align:left;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_nmcompany}</td>
                                 <td style="text-align:right;vertical-align:top;font-size:13px;border:none;{rec.prediksi_totalbetcss}">{rec.prediksi_totalbet}</td>
                                 <td style="text-align:right;vertical-align:top;font-size:13px;border:none;{rec.prediksi_subtotalcss}">
@@ -191,6 +205,19 @@
                             {/each}
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer">
+                    <div class="float-end">
+                        <table>
+                            <tr>
+                                <td>Subtotal Company</td>
+                                <td>:</td>
+                                <td style="{subtotal_company_css}">
+                                    {new Intl.NumberFormat().format(subtotal_company)}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
