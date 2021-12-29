@@ -110,7 +110,14 @@
         }
     }
    
-  
+    function generate(field){
+        let numbergenerate = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+        switch(field){
+            case "nomorprediksi":
+                 nomorprediksi = numbergenerate
+                break;
+        }
+    }
     function callFunction(event){
         switch(event.detail){
             case "GENERATE":
@@ -158,13 +165,20 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleForm" class="form-label">Nomor Prediksi</label>
-                        <Input
-                            bind:value={nomorprediksi}
-                            on:keyup={handleKeyboard_format}   
-                            type="text"
-                            minlength="4"
-                            maxlength="4"
-                            placeholder="Nomor Prediksi"/>
+                        <div class="input-group mb-3">
+                            <Input
+                                bind:value={nomorprediksi}
+                                on:keyup={handleKeyboard_format}   
+                                type="text"
+                                minlength="4"
+                                maxlength="4"
+                                placeholder="Nomor Prediksi"/>
+                            <button
+                                on:click={() => {
+                                    generate("nomorprediksi");
+                                }}
+                                type="button" class="btn btn-info">Generate</button>
+                        </div>
                     </div>
                 </div>
             </div>
