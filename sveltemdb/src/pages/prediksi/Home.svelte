@@ -82,6 +82,9 @@
                             prediksi_no: no,
                             prediksi_idcompany: record[i]["prediksi_idcompany"],
                             prediksi_nmcompany: record[i]["prediksi_nmcompany"],
+                            prediksi_invoice: record[i]["prediksi_invoice"],
+                            prediksi_invoicedate: record[i]["prediksi_invoicedate"],
+                            prediksi_invoiceperiode: record[i]["prediksi_invoiceperiode"],
                             prediksi_totalbet: record[i]["prediksi_totalbet"],
                             prediksi_totalbetcss: css_bet,
                             prediksi_subtotal: record[i]["prediksi_subtotal"],
@@ -147,7 +150,7 @@
                         <Button
                             on:click={callFunction}
                             button_function="GENERATE"
-                            button_title="Generate"
+                            button_title="Check"
                             button_css="btn-warning"/>
                     </div>
                     <h5 class="card-title">Prediksi</h5>
@@ -192,11 +195,14 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th width="1%" style="text-align:left;vertical-align:top;font-size:14px;border:none;">NO</th>
-                                <th width="*" style="text-align:left;vertical-align:top;font-size:14px;border:none;">AGEN</th>
-                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">TOTAL BET</th>
-                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">MEMBER WINLOSE</th>
-                                <th width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">COMPANY WINLOSE</th>
+                                <th NOWRAP width="1%" style="text-align:left;vertical-align:top;font-size:14px;border:none;">NO</th>
+                                <th NOWRAP width="*" style="text-align:left;vertical-align:top;font-size:14px;border:none;">AGEN</th>
+                                <th NOWRAP width="7%" style="text-align:left;vertical-align:top;font-size:14px;border:none;">INVOICE</th>
+                                <th NOWRAP width="7%" style="text-align:center;vertical-align:top;font-size:14px;border:none;">DATE</th>
+                                <th NOWRAP width="7%" style="text-align:left;vertical-align:top;font-size:14px;border:none;">PERIODE</th>
+                                <th NOWRAP width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">TOTAL BET</th>
+                                <th NOWRAP width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">MEMBER WINLOSE</th>
+                                <th NOWRAP width="20%" style="text-align:right;vertical-align:top;font-size:14px;border:none;">COMPANY WINLOSE</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -204,6 +210,9 @@
                             <tr>
                                 <td style="text-align:center;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_no}</td>
                                 <td style="text-align:left;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_nmcompany}</td>
+                                <td style="text-align:left;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_invoice}</td>
+                                <td style="text-align:center;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_invoicedate}</td>
+                                <td style="text-align:left;vertical-align:top;font-size:13px;border:none;">{rec.prediksi_invoiceperiode}</td>
                                 <td style="text-align:right;vertical-align:top;font-size:13px;border:none;{rec.prediksi_totalbetcss}">{rec.prediksi_totalbet}</td>
                                 <td style="text-align:right;vertical-align:top;font-size:13px;border:none;{rec.prediksi_subtotalcss}">
                                     {new Intl.NumberFormat().format(
