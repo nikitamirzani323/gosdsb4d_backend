@@ -174,7 +174,7 @@
                 <div class="card-header">
                     <h5 class="card-title">Result</h5>
                 </div>
-                <div class="card-body overflow-auto" style="padding: 5px;margin:0px;height:800px;">
+                <div class="card-body overflow-auto" style="padding: 5px;margin:0px;height:700px;">
                     <table class="table">
                         <thead>
                             <tr>
