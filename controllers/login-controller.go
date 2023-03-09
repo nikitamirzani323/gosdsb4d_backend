@@ -59,14 +59,16 @@ func CheckLogin(c *fiber.Ctx) error {
 			})
 
 	} else {
-		dataclient := client.Username + "==" + strconv.Itoa(ruleadmin)
+
+		dataclient := client.Username + "==" + ruleadmin
 		dataclient_encr, keymap := helpers.Encryption(dataclient)
 		dataclient_encr_final := dataclient_encr + "|" + strconv.Itoa(keymap)
 		t, err := helpers.GenerateNewAccessToken(dataclient_encr_final)
+
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-
+		log.Println(t)
 		return c.JSON(fiber.Map{
 			"status": fiber.StatusOK,
 			"token":  t,

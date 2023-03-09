@@ -13,13 +13,13 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func Sdsbnighthome(c *fiber.Ctx) error {
-	field_redis := "LISTSDSBNIGHT_SDSB4D"
+const Field_sdsbnight_redis = "LISTSDSBNIGHT_SDSB4D"
 
+func Sdsbnighthome(c *fiber.Ctx) error {
 	var obj entities.Responseredis_sdsbnight
 	var arraobj []entities.Responseredis_sdsbnight
 	render_page := time.Now()
-	resultredis, flag := helpers.GetRedis(field_redis)
+	resultredis, flag := helpers.GetRedis(Field_sdsbnight_redis)
 	jsonredis := []byte(resultredis)
 	message_RD, _ := jsonparser.GetString(jsonredis, "message")
 	record_RD, _, _, _ := jsonparser.Get(jsonredis, "record")
@@ -51,7 +51,7 @@ func Sdsbnighthome(c *fiber.Ctx) error {
 				"record":  nil,
 			})
 		}
-		helpers.SetRedis(field_redis, result, 0)
+		helpers.SetRedis(Field_sdsbnight_redis, result, 0)
 		log.Println("SDSBNIGHT MYSQL")
 		return c.JSON(result)
 	} else {

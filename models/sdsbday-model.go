@@ -24,9 +24,11 @@ func Fetch_sdsbdayHome() (helpers.Response, error) {
 	start := time.Now()
 
 	sql_select := `SELECT 
-			idsdsb4dday , datesdsb4dday, 
+			idsdsb4dday , 
+			to_char(COALESCE(datesdsb4dday,now()), 'YYYY-MM-DD '), 
 			prize1_sdsb4dday , prize2_sdsb4dday, prize3_sdsb4dday, 
-			create_sdsb4dday, COALESCE(createdate_sdsb4dday,""), update_sdsb4dday, COALESCE(updatedate_sdsb4dday,"")  
+			create_sdsb4dday, to_char(COALESCE(createdate_sdsb4dday,now()), 'YYYY-MM-DD HH24:MI:SS'),  
+			update_sdsb4dday, to_char(COALESCE(updatedate_sdsb4dday,now()), 'YYYY-MM-DD HH24:MI:SS')   
 			FROM ` + configs.DB_tbl_trx_sdsb4d_day + ` 
 			ORDER BY datesdsb4dday DESC LIMIT 365 
 		`
@@ -75,8 +77,6 @@ func Fetch_sdsbdayHome() (helpers.Response, error) {
 func Save_sdsbdayHome(admin, tanggal, sData string, idrecord int) (helpers.Response, error) {
 	var res helpers.Response
 	msg := "Failed"
-	con := db.CreateCon()
-	ctx := context.Background()
 	tglnow, _ := goment.New()
 	render_page := time.Now()
 	flag := false
@@ -89,105 +89,64 @@ func Save_sdsbdayHome(admin, tanggal, sData string, idrecord int) (helpers.Respo
 				` + configs.DB_tbl_trx_sdsb4d_day + ` (
 					idsdsb4dday , datesdsb4dday, create_sdsb4dday, createdate_sdsb4dday
 				) values (
-					? ,?, ?, ?
+					$1 ,$2, $3, $4 
 				)
 			`
-			stmt_insert, e_insert := con.PrepareContext(ctx, sql_insert)
-			helpers.ErrorCheck(e_insert)
-			defer stmt_insert.Close()
 			field_column := configs.DB_tbl_trx_sdsb4d_day + tglnow.Format("YYYY")
 			idrecord_counter := Get_counter(field_column)
-			res_newrecord, e_newrecord := stmt_insert.ExecContext(
-				ctx,
+			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_sdsb4d_day, "UPDATE",
 				tglnow.Format("YY")+strconv.Itoa(idrecord_counter),
 				tanggal,
 				admin,
 				tglnow.Format("YYYY-MM-DD HH:mm:ss"))
-			helpers.ErrorCheck(e_newrecord)
-			insert, e := res_newrecord.RowsAffected()
-			helpers.ErrorCheck(e)
-			if insert > 0 {
-				flag = true
-				msg = "Succes"
-				log.Println("Data Berhasil di save")
+
+			if !flag_insert {
+				log.Println(msg_insert)
 			}
 		} else {
 			msg = "Duplicate Entry"
 		}
 	}
 
-	if flag {
-		res.Status = fiber.StatusOK
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	} else {
-		res.Status = fiber.StatusBadRequest
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	}
+	res.Status = fiber.StatusOK
+	res.Message = msg
+	res.Record = nil
+	res.Time = time.Since(render_page).String()
 
 	return res, nil
 }
 func Save_sdsbdayGenerator(admin, field, prize, sData string, idrecord int) (helpers.Response, error) {
 	var res helpers.Response
 	msg := "Failed"
-	con := db.CreateCon()
-	ctx := context.Background()
 	tglnow, _ := goment.New()
 	render_page := time.Now()
-	flag := false
 
 	if sData == "Edit" {
 		sql_update := `
-				UPDATE 
-				` + configs.DB_tbl_trx_sdsb4d_day + `  
-				SET ` + field + ` =?,  
-				update_sdsb4dday=?, updatedate_sdsb4dday=? 
-				WHERE idsdsb4dday=? 
-			`
-		stmt_record, e := con.PrepareContext(ctx, sql_update)
-		helpers.ErrorCheck(e)
-		rec_record, e_record := stmt_record.ExecContext(
-			ctx,
-			prize,
-			admin,
-			tglnow.Format("YYYY-MM-DD HH:mm:ss"),
-			idrecord)
-		helpers.ErrorCheck(e_record)
-		update_record, e_record := rec_record.RowsAffected()
-		helpers.ErrorCheck(e_record)
+			UPDATE 
+			` + configs.DB_tbl_trx_sdsb4d_day + `  
+			SET ` + field + ` =$1,  
+			update_sdsb4dday=$2, updatedate_sdsb4dday=$3 
+			WHERE idsdsb4dday=$4  
+		`
+		flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_trx_sdsb4d_day, "UPDATE",
+			prize, admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"), idrecord)
 
-		defer stmt_record.Close()
-		if update_record > 0 {
-			flag = true
-			msg = "Succes"
-			log.Printf("Update SDSB4D-DAY Success : %d\n", idrecord)
-		} else {
-			log.Println("Update SDSB4D-DAY failed")
+		if !flag_update {
+			log.Println(msg_update)
 		}
 	}
 
-	if flag {
-		res.Status = fiber.StatusOK
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	} else {
-		res.Status = fiber.StatusBadRequest
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	}
+	res.Status = fiber.StatusOK
+	res.Message = msg
+	res.Record = nil
+	res.Time = time.Since(render_page).String()
 
 	return res, nil
 }
 func Save_Generator(admin string) (helpers.Response, error) {
 	var res helpers.Response
 	msg := "Failed"
-	con := db.CreateCon()
-	ctx := context.Background()
 	tglnow, _ := goment.New()
 	render_page := time.Now()
 	flag := false
@@ -198,26 +157,21 @@ func Save_Generator(admin string) (helpers.Response, error) {
 		flag = CheckDB(configs.DB_tbl_trx_sdsb4d_day, "datesdsb4dday", tanggal)
 		if !flag {
 			sql_insert := `
-			insert into
-			` + configs.DB_tbl_trx_sdsb4d_day + ` (
-				idsdsb4dday , datesdsb4dday, prize1_sdsb4dday, prize2_sdsb4dday, prize3_sdsb4dday, 
-				create_sdsb4dday, createdate_sdsb4dday
-			) values (
-				? ,?, ?, ?, ?,
-				?, ?
-			)
-		`
-			stmt_insert, e_insert := con.PrepareContext(ctx, sql_insert)
-			helpers.ErrorCheck(e_insert)
-			defer stmt_insert.Close()
-
+				insert into
+				` + configs.DB_tbl_trx_sdsb4d_day + ` (
+					idsdsb4dday , datesdsb4dday, prize1_sdsb4dday, prize2_sdsb4dday, prize3_sdsb4dday, 
+					create_sdsb4dday, createdate_sdsb4dday
+				) values (
+					$1 ,$2, $3, $4, $5,
+					$6, $7 
+				)
+			`
 			prize_1 := helpers.GenerateNumber(4)
 			prize_2 := helpers.GenerateNumber(4)
 			prize_3 := helpers.GenerateNumber(4)
 			field_column := configs.DB_tbl_trx_sdsb4d_day + tglnow.Format("YYYY")
 			idrecord_counter := Get_counter(field_column)
-			res_newrecord, e_newrecord := stmt_insert.ExecContext(
-				ctx,
+			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_sdsb4d_day, "UPDATE",
 				tglnow.Format("YY")+strconv.Itoa(idrecord_counter),
 				tanggal,
 				prize_1,
@@ -225,13 +179,9 @@ func Save_Generator(admin string) (helpers.Response, error) {
 				prize_3,
 				admin,
 				tglnow.Format("YYYY-MM-DD HH:mm:ss"))
-			helpers.ErrorCheck(e_newrecord)
-			insert, e := res_newrecord.RowsAffected()
-			helpers.ErrorCheck(e)
-			if insert > 0 {
-				flag = true
-				msg = "Succes"
-				log.Println("Data Berhasil di save")
+
+			if !flag_insert {
+				log.Println(msg_insert)
 			}
 		} else {
 			break

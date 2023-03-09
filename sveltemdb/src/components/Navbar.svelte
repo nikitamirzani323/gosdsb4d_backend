@@ -38,10 +38,16 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" use:link href="/sdsb4dday" style="font-size: 13px;">SDSB4D - DAY</a>
+                                <a class="dropdown-item" use:link href="/sdsb4dday" style="font-size: 13px;">GONGJU - DAY</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">SDDB4D - NIGHT</a>
+                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">GONGJU - NIGHT</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">VIETNAM - DAY</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">VIETNAM - NIGHT</a>
                             </li>
                         </ul>
                     </li>
