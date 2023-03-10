@@ -47,7 +47,7 @@
                                 <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">VIETNAM - DAY</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" use:link href="/sdsb4dnight" style="font-size: 13px;">VIETNAM - NIGHT</a>
+                                <a class="dropdown-item" use:link href="/vietnamnight" style="font-size: 13px;">VIETNAM - NIGHT</a>
                             </li>
                         </ul>
                     </li>
