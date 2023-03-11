@@ -327,6 +327,7 @@
                                     <th NOWRAP width="1%" style="text-align: center;vertical-align: top;">&nbsp;</th>
                                     <th NOWRAP width="1%" style="text-align: center;vertical-align: top;font-weight:bold;font-size:{table_header_font};">NO</th>
                                     <th NOWRAP width="*" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">DATE</th>
+                                    <th NOWRAP width="5%" style="text-align: left;vertical-align: top;font-weight:bold;font-size: {table_header_font};">INV</th>
                                     <th NOWRAP width="20%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">PRIZE 1 - 13:00</th>
                                     <th NOWRAP width="20%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">PRIZE 1 - 17:00</th>
                                     <th NOWRAP width="20%" style="text-align: center;vertical-align: top;font-weight:bold;font-size: {table_header_font};">PRIZE 1 - 20:00</th>
@@ -350,8 +351,9 @@
                                                 }} 
                                                 class="bi bi-pencil"></i>
                                         </td>
-                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_no} - {rec.vietnamnight_id}</td>
+                                        <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_no}</td>
                                         <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_date}</td>
+                                        <td NOWRAP style="text-align: left;vertical-align: top;font-size: {table_body_font};">#{rec.vietnamnight_id}</td>
                                         <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_prize1_1300}</td>
                                         <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_prize1_1700}</td>
                                         <td NOWRAP style="text-align: center;vertical-align: top;font-size: {table_body_font};">{rec.vietnamnight_prize1_2000}</td>
