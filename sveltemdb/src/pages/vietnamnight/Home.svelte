@@ -48,7 +48,6 @@
     let css_loader = "display: none;";
     let msgloader = "";
 
-    console.log(dayjs().format("DD/MM/YYYY"))
     
     const NewData = () => {
         clearField()
@@ -169,34 +168,39 @@
             const json = await res.json();
             if (json.status == 200) {
                 msgloader = json.message;
-                RefreshHalaman()
-                switch(tipe){
-                    case "prize1_1300":
-                        prize1_1300_save_flag = true;
-                        prize1_1300_flag = true;
-                        
-                        break;
-                    case "prize1_1700":
-                        prize1_1700_save_flag = true;
-                        prize1_1700_flag = true;
-                        break;
-                    case "prize1_2000":
-                        prize1_2000_save_flag = true;
-                        prize1_2000_flag = true;
-                        break;
-                    case "prize1_2200":
-                        prize1_2200_save_flag = true;
-                        prize1_2200_flag = true;
-                        break;
+                if(msgloader == "Success"){
+                    RefreshHalaman()
+                    switch(tipe){
+                        case "prize1_1300":
+                            prize1_1300_save_flag = true;
+                            prize1_1300_flag = true;
+                            
+                            break;
+                        case "prize1_1700":
+                            prize1_1700_save_flag = true;
+                            prize1_1700_flag = true;
+                            break;
+                        case "prize1_2000":
+                            prize1_2000_save_flag = true;
+                            prize1_2000_flag = true;
+                            break;
+                        case "prize1_2200":
+                            prize1_2200_save_flag = true;
+                            prize1_2200_flag = true;
+                            break;
+                    }
+                    set(ref(db, 'vietnamnight'), {
+                        datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
+                        nextdraw: dayjs(tanggal_keluaran).add(1,'day').format("YYYY-MM-DD"),
+                        prize1_1300: prize1_1300,
+                        prize1_1700: prize1_1700,
+                        prize1_2000: prize1_2000,
+                        prize1_2200: prize1_2200,
+                    });
+                }else{
+                    alert(msgloader)
                 }
-                set(ref(db, 'vietnamnight'), {
-                    datedraw: dayjs(tanggal_keluaran).format("DD-MMM-YYYY"),
-                    nextdraw: dayjs(tanggal_keluaran).add(1,'day').format("YYYY-MM-DD"),
-                    prize1_1300: prize1_1300,
-                    prize1_1700: prize1_1700,
-                    prize1_2000: prize1_2000,
-                    prize1_2200: prize1_2200,
-                });
+                
             } else if(json.status == 403){
                 alert(json.message)
             } else {
@@ -423,7 +427,12 @@
 		</div>
         
         <div class="mb-3">
-            <label for="exampleForm" class="form-label">Prize 13:00</label>
+            <label for="exampleForm" class="form-label">
+                <div class="d-flex flex-row">
+                    <div class="">Prize 13:00</div>
+                    <div class="ps-2 mt-3" style="font-size: 11px;color:blue;">OPEN: 12:55 - 13:00</div>
+                </div>
+            </label>
             <div class="input-group mb-3">
                 <Input
                     bind:value={prize1_1300}
@@ -448,7 +457,12 @@
             </div>
 		</div>
         <div class="mb-3">
-            <label for="exampleForm" class="form-label">Prize 17:00</label>
+            <label for="exampleForm" class="form-label">
+                <div class="d-flex flex-row">
+                    <div class="">Prize 17:00</div>
+                    <div class="ps-2 mt-3" style="font-size: 11px;color:blue;">OPEN: 16:55 - 17:00</div>
+                </div>
+            </label>
             <div class="input-group mb-3">
                 <Input
                     bind:value={prize1_1700}
@@ -473,7 +487,12 @@
             </div>
 		</div>
         <div class="mb-3">
-            <label for="exampleForm" class="form-label">Prize 20:00</label>
+            <label for="exampleForm" class="form-label">
+                <div class="d-flex flex-row">
+                    <div class="">Prize 20:00</div>
+                    <div class="ps-2 mt-3" style="font-size: 11px;color:blue;">OPEN: 19:55 - 20:00</div>
+                </div>
+            </label>
             <div class="input-group mb-3">
                 <Input
                     bind:value={prize1_2000}
@@ -498,7 +517,12 @@
             </div>
 		</div>
         <div class="mb-3">
-            <label for="exampleForm" class="form-label">Prize 22:00</label>
+            <label for="exampleForm" class="form-label">
+                <div class="d-flex flex-row">
+                    <div class="">Prize 22:00</div>
+                    <div class="ps-2 mt-3" style="font-size: 11px;color:blue;">OPEN: 20:55 - 22:00</div>
+                </div>
+            </label>
             <div class="input-group mb-3">
                 <Input
                     bind:value={prize1_2200}

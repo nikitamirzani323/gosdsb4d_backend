@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -119,25 +120,49 @@ func Save_vietnamenightHome(admin, tanggal, sData string, idrecord int) (helpers
 func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int) (helpers.Response, error) {
 	var res helpers.Response
 	msg := "Failed"
+	statuspasaran := "OFFLINE"
 	tglnow, _ := goment.New()
 	render_page := time.Now()
 
 	if sData == "Edit" {
-		sql_update := `
-			UPDATE 
-			` + configs.DB_tbl_trx_vietnam_night + `  
-			SET ` + field + ` =$1,  
-			update_vietnamnight=$2, updatedate_vietnamnight=$3  
-			WHERE idvietnamnight =$4  
-		`
-		flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_trx_vietnam_night, "UPDATE",
-			prize, admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"), idrecord)
-
-		if !flag_update {
-			fmt.Println(msg_update)
-		} else {
-			msg = "Success"
+		prize_time := ""
+		switch field {
+		case "prize_1300":
+			prize_time = " 12:55:00"
+		case "prize_1700":
+			prize_time = " 16:55:00"
+		case "prize_2000":
+			prize_time = " 19:55:00"
+		case "prize_2200":
+			prize_time = " 20:55:00"
 		}
+		tglskrg := tglnow.Format("YYYY-MM-DD HH:mm:ss")
+		tglskrgend := tglnow.Format("YYYY-MM-DD") + prize_time
+		if tglskrg >= tglskrgend {
+			statuspasaran = "ONLINE"
+		} else {
+			msg = "Offline"
+		}
+		if statuspasaran == "ONLINE" {
+			sql_update := `
+				UPDATE
+				` + configs.DB_tbl_trx_vietnam_night + `
+				SET ` + field + ` =$1,
+				update_vietnamnight=$2, updatedate_vietnamnight=$3
+				WHERE idvietnamnight =$4
+			`
+			flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_trx_vietnam_night, "UPDATE",
+				prize, admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"), idrecord)
+
+			if !flag_update {
+				fmt.Println(msg_update)
+			} else {
+				msg = "Success"
+			}
+		}
+		log.Println(tglskrg)
+		log.Println(tglskrgend)
+		log.Println(statuspasaran)
 	}
 
 	res.Status = fiber.StatusOK
