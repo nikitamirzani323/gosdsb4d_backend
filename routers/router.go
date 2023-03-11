@@ -42,6 +42,8 @@ func Init() *fiber.App {
 	app.Post("/api/generatornumbernight", middleware.JWTProtected(), controllers.SdsbnightGeneratorNumber)
 
 	app.Post("/api/vietnamnight", middleware.JWTProtected(), controllers.Vietnamnighthome)
+	app.Post("/api/savevietnamnight", middleware.JWTProtected(), controllers.VietnamnightSave)
+	app.Post("/api/savegeneratorvietnamnight", middleware.JWTProtected(), controllers.VietnamnightGeneratorSave)
 	app.Post("/api/generatornumbervietnamnight", middleware.JWTProtected(), controllers.VietnamnightGeneratorNumber)
 
 	app.Post("/api/initprediksi", middleware.JWTProtected(), controllers.TokenPrediksi)
