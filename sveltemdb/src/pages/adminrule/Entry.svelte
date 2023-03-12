@@ -199,8 +199,7 @@
                                     <input
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="DASHBOARD-VIEW"
-                                    />
+                                        value="DASHBOARD-VIEW"/>
                                 </td>
                                 <td width="*">VIEW</td>
                             </tr>
@@ -211,6 +210,8 @@
                             <tr>
                                 <th colspan="2" NOWRAP>SDSB4D - DAY</th>
                                 <th colspan="2" NOWRAP>SDSB4D - NIGHT</th>
+                                <th colspan="2" NOWRAP>VIETNAM - DAY</th>
+                                <th colspan="2" NOWRAP>VIETNAM - NIGHT</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -219,16 +220,28 @@
                                     <input
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="SDSB4DDAY-VIEW"
-                                    />
+                                        value="SDSB4DDAY-VIEW"/>
                                 </td>
                                 <td width="*">VIEW</td>
                                 <td width="1%">
                                     <input
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="SDSB4DNIGHT-VIEW"
-                                    />
+                                        value="SDSB4DNIGHT-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="VIETNAMDAY-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="VIETNAMNIGHT-VIEW"/>
                                 </td>
                                 <td width="*">VIEW</td>
                             </tr>
@@ -237,17 +250,29 @@
                                     <input
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="SDSB4DDAY-SAVE"
-                                    /></td
-                                >
+                                        value="SDSB4DDAY-SAVE"/>
+                                </td>
                                 <td width="*">SAVE</td>
                                 <td width="1%">
                                     <input
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
-                                        value="SDSB4DNIGHT-SAVE"
-                                    /></td
-                                >
+                                        value="SDSB4DNIGHT-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="VIETNAMDAY-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="VIETNAMNIGHT-SAVE"/>
+                                </td>
                                 <td width="*">SAVE</td>
                             </tr>
                         </tbody>

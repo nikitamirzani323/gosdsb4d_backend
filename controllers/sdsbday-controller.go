@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
@@ -53,10 +53,10 @@ func Sdsbdayhome(c *fiber.Ctx) error {
 			})
 		}
 		helpers.SetRedis(Field_sdsbday_redis, result, 0)
-		log.Println("SDSBDAY MYSQL")
+		fmt.Println("SDSBDAY MYSQL")
 		return c.JSON(result)
 	} else {
-		log.Println("SDSBDAY CACHE")
+		fmt.Println("SDSBDAY CACHE")
 		return c.JSON(fiber.Map{
 			"status":  fiber.StatusOK,
 			"message": message_RD,
@@ -112,10 +112,10 @@ func SdsbdaySave(c *fiber.Ctx) error {
 	}
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
-	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	fmt.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
 	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
 	val_api := helpers.DeleteRedis(field_redis_api)
-	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
+	fmt.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }
 func SdsbdayGeneratorSave(c *fiber.Ctx) error {
@@ -175,10 +175,10 @@ func SdsbdayGeneratorSave(c *fiber.Ctx) error {
 	}
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
-	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	fmt.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
 	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
 	val_api := helpers.DeleteRedis(field_redis_api)
-	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
+	fmt.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }
 func SdsbdayGeneratorNumber(c *fiber.Ctx) error {
@@ -199,9 +199,9 @@ func SdsbdayGeneratorNumber(c *fiber.Ctx) error {
 	}
 	field_redis := "LISTSDSBDAY_SDSB4D"
 	val_master := helpers.DeleteRedis(field_redis)
-	log.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
+	fmt.Printf("Redis Delete BACKEND LISTSDSBDAY_SDSB4D : %d", val_master)
 	field_redis_api := "SDSB4D_LISTSDSBDAY_API"
 	val_api := helpers.DeleteRedis(field_redis_api)
-	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
+	fmt.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 	return c.JSON(result)
 }

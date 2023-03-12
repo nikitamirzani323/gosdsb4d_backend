@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
@@ -13,13 +13,13 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func Adminrulehome(c *fiber.Ctx) error {
-	field_redis := "LISTADMINRULE_SDSB4D_BACKEND"
+const Field_adminrule_redis = "LISTADMINRULE_SDSB4D_BACKEND"
 
+func Adminrulehome(c *fiber.Ctx) error {
 	var obj entities.Responseredis_adminruleall
 	var arraobj []entities.Responseredis_adminruleall
 	render_page := time.Now()
-	resultredis, flag := helpers.GetRedis(field_redis)
+	resultredis, flag := helpers.GetRedis(Field_adminrule_redis)
 	jsonredis := []byte(resultredis)
 	record_RD, _, _, _ := jsonparser.Get(jsonredis, "record")
 	jsonparser.ArrayEach(record_RD, func(value []byte, dataType jsonparser.ValueType, offset int, err error) {
@@ -41,11 +41,11 @@ func Adminrulehome(c *fiber.Ctx) error {
 				"record":  nil,
 			})
 		}
-		helpers.SetRedis(field_redis, result, 0)
-		log.Println("ADMIN RULE MYSQL")
+		helpers.SetRedis(Field_adminrule_redis, result, 60*time.Minute)
+		fmt.Println("ADMIN RULE MYSQL")
 		return c.JSON(result)
 	} else {
-		log.Println("ADMIN RULE CACHE")
+		fmt.Println("ADMIN RULE CACHE")
 		return c.JSON(fiber.Map{
 			"status":  fiber.StatusOK,
 			"message": "Success",
@@ -97,8 +97,10 @@ func AdminruleSave(c *fiber.Ctx) error {
 			"record":  nil,
 		})
 	}
-	field_redis := "LISTADMINRULE_SDSB4D_BACKEND"
-	val_master := helpers.DeleteRedis(field_redis)
-	log.Printf("Redis Delete BACKEND LISTADMINRULE_SDSB4D_BACKEND : %d", val_master)
+	_deleteredis_adminrule()
 	return c.JSON(result)
+}
+func _deleteredis_adminrule() {
+	val_master := helpers.DeleteRedis(Field_adminrule_redis)
+	fmt.Printf("Redis Delete BACKEND LISTADMIN_SDSB4D_BACKEND : %d", val_master)
 }

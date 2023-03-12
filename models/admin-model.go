@@ -3,7 +3,7 @@ package models
 import (
 	"context"
 	"database/sql"
-	"log"
+	"fmt"
 	"time"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/configs"
@@ -24,8 +24,9 @@ func Fetch_adminHome() (helpers.ResponseAdmin, error) {
 	start := time.Now()
 
 	sql_select := `SELECT 
-			username , name, idadmin,
-			statuslogin, COALESCE(lastlogin,""), COALESCE(joindate,""), 
+			username , name, idadmin, statuslogin, 
+			to_char(COALESCE(lastlogin,now()), 'YYYY-MM-DD '), 
+			to_char(COALESCE(joindate,now()), 'YYYY-MM-DD '), 
 			ipaddress, timezone  
 			FROM ` + configs.DB_tbl_admin + ` 
 			ORDER BY lastlogin DESC 
@@ -104,13 +105,12 @@ func Fetch_adminDetail(username string) (helpers.ResponseAdmin, error) {
 	con := db.CreateCon()
 	ctx := context.Background()
 	start := time.Now()
-	flag := true
 
 	sql_detail := `SELECT 
 		idadmin, name, statuslogin  
 		createadmin, createdateadmin, updateadmin, updatedateadmin  
 		FROM ` + configs.DB_tbl_admin + `
-		WHERE username = ? 
+		WHERE username = $1  
 	`
 	var (
 		idadmin_db, name_db, statuslogin_db                                    string
@@ -122,7 +122,6 @@ func Fetch_adminDetail(username string) (helpers.ResponseAdmin, error) {
 		&idadmin_db, &name_db, &statuslogin_db,
 		&createadmin_db, &createdateadmin_db, &updateadmin_db, &updatedateadmin_db); err {
 	case sql.ErrNoRows:
-		flag = false
 	case nil:
 		if createdateadmin_db == "0000-00-00 00:00:00" {
 			createdateadmin_db = ""
@@ -148,29 +147,19 @@ func Fetch_adminDetail(username string) (helpers.ResponseAdmin, error) {
 		arraobj = append(arraobj, obj)
 		msg = "Success"
 	default:
-		flag = false
 		helpers.ErrorCheck(err)
 	}
 
-	if flag {
-		res.Status = fiber.StatusOK
-		res.Message = msg
-		res.Record = arraobj
-		res.Time = time.Since(start).String()
-	} else {
-		res.Status = fiber.StatusBadRequest
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(start).String()
-	}
+	res.Status = fiber.StatusOK
+	res.Message = msg
+	res.Record = arraobj
+	res.Time = time.Since(start).String()
 
 	return res, nil
 }
 func Save_adminHome(admin, username, password, nama, rule, status, sData string) (helpers.Response, error) {
 	var res helpers.Response
 	msg := "Failed"
-	con := db.CreateCon()
-	ctx := context.Background()
 	tglnow, _ := goment.New()
 	render_page := time.Now()
 	flag := false
@@ -179,34 +168,29 @@ func Save_adminHome(admin, username, password, nama, rule, status, sData string)
 		flag = CheckDB(configs.DB_tbl_admin, "username", username)
 		if !flag {
 			sql_insert := `
-			insert into
-			` + configs.DB_tbl_admin + ` (
-				username , password, idadmin, name, statuslogin, joindate, 
-				createadmin, createdateadmin
-			) values (
-				?, ?, ?, ?, ?, ?, 
-				?, ?
-			)
-		`
-			stmt_insert, e_insert := con.PrepareContext(ctx, sql_insert)
-			helpers.ErrorCheck(e_insert)
-			defer stmt_insert.Close()
+				insert into
+				` + configs.DB_tbl_admin + ` (
+					username , password, idadmin, name, statuslogin, joindate, 
+					createadmin, createdateadmin
+				) values (
+					$1, $2, $3, $4, $5, $6, 
+					$7, $8 
+				)
+			`
 			hashpass := helpers.HashPasswordMD5(password)
-			res_newpasaran, e_newpasaran := stmt_insert.ExecContext(
-				ctx,
+			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_admin, "INSERT",
 				username, hashpass,
 				rule, nama, "Y",
 				tglnow.Format("YYYY-MM-DD HH:mm:ss"),
 				admin,
 				tglnow.Format("YYYY-MM-DD HH:mm:ss"))
-			helpers.ErrorCheck(e_newpasaran)
-			insert, e := res_newpasaran.RowsAffected()
-			helpers.ErrorCheck(e)
-			if insert > 0 {
-				flag = true
-				msg = "Succes"
-				log.Println("Data Berhasil di save")
+
+			if !flag_insert {
+				fmt.Println(msg_insert)
+			} else {
+				msg = "Success"
 			}
+
 		} else {
 			msg = "Duplicate Entry"
 		}
@@ -215,79 +199,44 @@ func Save_adminHome(admin, username, password, nama, rule, status, sData string)
 			sql_update := `
 				UPDATE 
 				` + configs.DB_tbl_admin + `  
-				SET name =?, idadmin=?, statuslogin=?,  
-				updateadmin=?, updatedateadmin=? 
-				WHERE username =? 
+				SET name =$1, idadmin=$2, statuslogin=$3,  
+				updateadmin=$4, updatedateadmin=$5  
+				WHERE username=$6  
 			`
-			stmt_admin, e := con.PrepareContext(ctx, sql_update)
-			helpers.ErrorCheck(e)
-			rec_admin, e_admin := stmt_admin.ExecContext(
-				ctx,
-				nama,
-				rule,
-				status,
-				admin,
-				tglnow.Format("YYYY-MM-DD HH:mm:ss"),
-				username)
-			helpers.ErrorCheck(e_admin)
-			update_admin, e_admin := rec_admin.RowsAffected()
-			helpers.ErrorCheck(e_admin)
+			flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_admin, "UPDATE",
+				nama, rule, status, admin,
+				tglnow.Format("YYYY-MM-DD HH:mm:ss"), username)
 
-			defer stmt_admin.Close()
-			if update_admin > 0 {
-				flag = true
-				msg = "Succes"
-				log.Printf("Update tbl_admin Success : %s\n", username)
+			if !flag_update {
+				fmt.Println(msg_update)
 			} else {
-				log.Println("Update tbl_admin failed")
+				msg = "Success"
 			}
 		} else {
-			hashpass := helpers.HashPasswordMD5(password)
-			sql_update2 := `
+			sql_update := `
 				UPDATE 
 				` + configs.DB_tbl_admin + `   
-				SET name =?, password=?, idadmin=?, statuslogin=?,  
-				updateadmin=?, updatedateadmin=? 
-				WHERE username =? 
+				SET name =$1, password=$2, idadmin=$3, statuslogin=$4,  
+				updateadmin=$5, updatedateadmin=$6  
+				WHERE username =$7  
 			`
-			stmt_admin, e := con.PrepareContext(ctx, sql_update2)
-			helpers.ErrorCheck(e)
-			rec_admin, e_admin := stmt_admin.ExecContext(
-				ctx,
-				nama,
-				hashpass,
-				rule,
-				status,
-				admin,
-				tglnow.Format("YYYY-MM-DD HH:mm:ss"),
-				username)
-			helpers.ErrorCheck(e_admin)
+			hashpass := helpers.HashPasswordMD5(password)
+			flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_admin, "UPDATE",
+				nama, hashpass, rule, status,
+				admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"), username)
 
-			update_admin, e_admin := rec_admin.RowsAffected()
-			helpers.ErrorCheck(e_admin)
-
-			defer stmt_admin.Close()
-			if update_admin > 0 {
-				flag = true
-				msg = "Succes"
-				log.Println("Update tbl_admin Success")
+			if !flag_update {
+				fmt.Println(msg_update)
 			} else {
-				log.Println("Update tbl_admin failed")
+				msg = "Success"
 			}
 		}
 	}
 
-	if flag {
-		res.Status = fiber.StatusOK
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	} else {
-		res.Status = fiber.StatusBadRequest
-		res.Message = msg
-		res.Record = nil
-		res.Time = time.Since(render_page).String()
-	}
+	res.Status = fiber.StatusOK
+	res.Message = msg
+	res.Record = nil
+	res.Time = time.Since(render_page).String()
 
 	return res, nil
 }

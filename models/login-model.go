@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"log"
+	"fmt"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/configs"
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/db"
@@ -25,7 +25,6 @@ func Login_Model(username, password, ipaddress, timezone string) (bool, string, 
 			WHERE username  = $1 
 			AND statuslogin = 'Y' 
 		`
-	log.Println(sql_select)
 	row := con.QueryRowContext(ctx, sql_select, username)
 	switch e := row.Scan(&passwordDB, &idadminDB); e {
 	case sql.ErrNoRows:
@@ -37,8 +36,8 @@ func Login_Model(username, password, ipaddress, timezone string) (bool, string, 
 	}
 
 	hashpass := helpers.HashPasswordMD5(password)
-	log.Println("Password : " + hashpass)
-	log.Println("Hash : " + passwordDB)
+	fmt.Println("Password : " + hashpass)
+	fmt.Println("Hash : " + passwordDB)
 	if hashpass != passwordDB {
 		return false, "", nil
 	}
@@ -53,17 +52,14 @@ func Login_Model(username, password, ipaddress, timezone string) (bool, string, 
 		`
 		flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_admin, "UPDATE",
 			tglnow.Format("YYYY-MM-DD HH:mm:ss"),
-			ipaddress,
-			timezone,
-			username,
-			tglnow.Format("YYYY-MM-DD HH:mm:ss"),
-			username)
+			ipaddress, timezone, username,
+			tglnow.Format("YYYY-MM-DD HH:mm:ss"), username)
 
 		if flag_update {
 			flag = true
-			log.Println(msg_update)
+			fmt.Println(msg_update)
 		} else {
-			log.Println(msg_update)
+			fmt.Println(msg_update)
 		}
 
 	}

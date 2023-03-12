@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"time"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
@@ -55,10 +55,10 @@ func Vietnamnighthome(c *fiber.Ctx) error {
 			})
 		}
 		helpers.SetRedis(Field_vietnamnight_redis, result, 60*time.Minute)
-		log.Println("VIETNAMNIGHT MYSQL")
+		fmt.Println("VIETNAMNIGHT MYSQL")
 		return c.JSON(result)
 	} else {
-		log.Println("VIETNAMNIGHT CACHE")
+		fmt.Println("VIETNAMNIGHT CACHE")
 		return c.JSON(fiber.Map{
 			"status":  fiber.StatusOK,
 			"message": message_RD,
@@ -196,9 +196,9 @@ func VietnamnightGeneratorNumber(c *fiber.Ctx) error {
 }
 func _deleteredis_vietnamnight() {
 	val_master := helpers.DeleteRedis(Field_vietnamnight_redis)
-	log.Printf("Redis Delete BACKEND VIETNAMENIGHT : %d", val_master)
+	fmt.Printf("Redis Delete BACKEND VIETNAMENIGHT : %d", val_master)
 
 	field_redis_api := "SDSB4D_LISTSDSBNIGHT_API"
 	val_api := helpers.DeleteRedis(field_redis_api)
-	log.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
+	fmt.Printf("Redis Delete API LISTSDSBDAY_SDSB4D : %d", val_api)
 }

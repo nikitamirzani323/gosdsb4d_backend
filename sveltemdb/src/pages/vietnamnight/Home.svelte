@@ -114,7 +114,7 @@
                 },
                 body: JSON.stringify({
                     sdata: sData,
-                    page:"SDSB4DNIGHT-SAVE",
+                    page:"VIETNAMNIGHT-SAVE",
                     idrecord: parseInt(0),
                     tanggal: date_keluaran,
                 }),

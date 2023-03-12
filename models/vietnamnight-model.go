@@ -3,7 +3,6 @@ package models
 import (
 	"context"
 	"fmt"
-	"log"
 	"strconv"
 	"time"
 
@@ -96,7 +95,7 @@ func Save_vietnamenightHome(admin, tanggal, sData string, idrecord int) (helpers
 			`
 			field_column := configs.DB_tbl_trx_vietnam_night + tglnow.Format("YYYY")
 			idrecord_counter := Get_counter(field_column)
-			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_sdsb4d_day, "UPDATE",
+			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_sdsb4d_day, "INSERT",
 				tglnow.Format("YY")+strconv.Itoa(idrecord_counter), tanggal,
 				admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"))
 
@@ -160,9 +159,6 @@ func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int
 				msg = "Success"
 			}
 		}
-		log.Println(tglskrg)
-		log.Println(tglskrgend)
-		log.Println(statuspasaran)
 	}
 
 	res.Status = fiber.StatusOK

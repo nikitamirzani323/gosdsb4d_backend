@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 	"strconv"
 
 	"bitbucket.org/isbtotogroup/sdsb4d-backend/entities"
@@ -68,7 +68,7 @@ func CheckLogin(c *fiber.Ctx) error {
 		if err != nil {
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		log.Println(t)
+		fmt.Println(t)
 		return c.JSON(fiber.Map{
 			"status": fiber.StatusOK,
 			"token":  t,
@@ -92,7 +92,7 @@ func Home(c *fiber.Ctx) error {
 	name := claims["name"].(string)
 	temp_decp := helpers.Decryption(name)
 
-	log.Println(temp_decp)
+	fmt.Println(temp_decp)
 
 	c.Status(fiber.StatusOK)
 	return c.JSON(fiber.Map{

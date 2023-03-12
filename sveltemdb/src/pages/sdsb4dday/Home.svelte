@@ -11,13 +11,13 @@
     import { createEventDispatcher } from "svelte";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyCnjwV66P7jDLx5A0Hlh7CHKoZ2tg9jmMY",
-        authDomain: "united-rope-233010.firebaseapp.com",
-        databaseURL: "https://united-rope-233010-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "united-rope-233010",
-        storageBucket: "united-rope-233010.appspot.com",
-        messagingSenderId: "994050756260",
-        appId: "1:994050756260:web:4dee40c4ca0c34a1842031"
+        apiKey: "AIzaSyBqVRbGvJBb1JEfKYyN6jgocZjzsx2lN2A",
+        authDomain: "dazzling-pillar-328210.firebaseapp.com",
+        databaseURL: "https://dazzling-pillar-328210-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "dazzling-pillar-328210",
+        storageBucket: "dazzling-pillar-328210.appspot.com",
+        messagingSenderId: "770359422621",
+        appId: "1:770359422621:web:7933922e00547dc735ee74"
     };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -27,7 +27,7 @@
 	export let listHome = []
 	export let totalrecord = 0
     let dispatch = createEventDispatcher();
-	let title_page = "SDSB4D - DAY"
+	let title_page = "GONGJU - DAY"
     let sData = "";
     let myModal_newentry = "";
     let tanggal_keluaran = "";

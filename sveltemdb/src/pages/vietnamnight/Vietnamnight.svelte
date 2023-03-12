@@ -20,7 +20,7 @@
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                page: "SDSB4DDAY-VIEW",
+                page: "VIETNAMNIGHT-VIEW",
             }),
         });
         const json = await res.json();
