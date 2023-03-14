@@ -175,47 +175,49 @@ func Save_Generatorvietnamenight(admin string) (helpers.Response, error) {
 	render_page := time.Now()
 	flag := false
 
-	for i := 0; i <= 299; i++ {
-		tglnow2, _ := goment.New("2021-01-01")
-		tanggal := tglnow2.Add(i, "days").Format("YYYY-MM-DD")
-		flag = CheckDB(configs.DB_tbl_trx_vietnam_night, "datevietnamnight", tanggal)
-		if !flag {
-			sql_insert := `
-				insert into
-				` + configs.DB_tbl_trx_vietnam_night + ` (
-					idvietnamnight, datevietnamnight, 
-					prize_1300, prize_1700, prize_2000, prize_2200, 
-					create_vietnamnight, createdate_vietnamnight
-				) values (
-					$1, $2, 
-					$3, $4, $5, $6,
-					$7, $8 
-				)
-			`
-			prize_1_1300 := helpers.GenerateNumber(6)
-			prize_1_1700 := helpers.GenerateNumber(6)
-			prize_1_2000 := helpers.GenerateNumber(6)
-			prize_1_2200 := helpers.GenerateNumber(6)
-			field_column := configs.DB_tbl_trx_vietnam_night + tglnow.Format("YYYY")
-			idrecord_counter := Get_counter(field_column)
-			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_vietnam_night, "UPDATE",
-				tglnow.Format("YY")+strconv.Itoa(idrecord_counter),
-				tanggal,
-				prize_1_1300,
-				prize_1_1700,
-				prize_1_2000,
-				prize_1_2200,
-				admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"))
+	go func() {
+		for i := 0; i <= 799; i++ {
+			tglnow2, _ := goment.New("2021-01-01")
+			tanggal := tglnow2.Add(i, "days").Format("YYYY-MM-DD")
+			flag = CheckDB(configs.DB_tbl_trx_vietnam_night, "datevietnamnight", tanggal)
+			if !flag {
+				sql_insert := `
+					insert into
+					` + configs.DB_tbl_trx_vietnam_night + ` (
+						idvietnamnight, datevietnamnight, 
+						prize_1300, prize_1700, prize_2000, prize_2200, 
+						create_vietnamnight, createdate_vietnamnight
+					) values (
+						$1, $2, 
+						$3, $4, $5, $6,
+						$7, $8 
+					)
+				`
+				prize_1_1300 := helpers.GenerateNumber(4)
+				prize_1_1700 := helpers.GenerateNumber(4)
+				prize_1_2000 := helpers.GenerateNumber(4)
+				prize_1_2200 := helpers.GenerateNumber(4)
+				field_column := configs.DB_tbl_trx_vietnam_night + tglnow.Format("YYYY")
+				idrecord_counter := Get_counter(field_column)
+				flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_vietnam_night, "UPDATE",
+					tglnow.Format("YY")+strconv.Itoa(idrecord_counter),
+					tanggal,
+					prize_1_1300,
+					prize_1_1700,
+					prize_1_2000,
+					prize_1_2200,
+					admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"))
 
-			if !flag_insert {
-				fmt.Println(msg_insert)
+				if !flag_insert {
+					fmt.Println(msg_insert)
+				} else {
+					msg = "Success"
+				}
 			} else {
-				msg = "Success"
+				break
 			}
-		} else {
-			break
 		}
-	}
+	}()
 
 	res.Status = fiber.StatusOK
 	res.Message = msg
