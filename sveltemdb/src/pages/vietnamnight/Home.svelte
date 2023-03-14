@@ -147,7 +147,7 @@
     }
     async function handleSaveGenerator(tipe,prize) {
         let flag_save = false;
-        if(prize.length == 6){
+        if(prize.length == 4){
             flag_save = true;
         }
         if(flag_save){
@@ -239,7 +239,7 @@
         date_keluaran = ""
     }
     function generate(field){
-        let numbergenerate = (Math.floor(Math.random() * 1000000) + 1000000).toString().substring(1);
+        let numbergenerate = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
         switch(field){
             case "prize1_1300":
                 prize1_1300 = numbergenerate
@@ -441,8 +441,8 @@
                     on:keyup={handleKeyboard_format}    
                     disabled='{prize1_1300_flag}'
                     type="text"
-                    minlength="6"
-                    maxlength="6"
+                    minlength="4"
+                    maxlength="4"
                     placeholder="Prize 13:00"/>
                 <button
                     on:click={() => {
@@ -471,8 +471,8 @@
                     on:keyup={handleKeyboard_format}    
                     disabled='{prize1_1700_flag}'
                     type="text"
-                    minlength="6"
-                    maxlength="6"
+                    minlength="4"
+                    maxlength="4"
                     placeholder="Prize 17:00"/>
                 <button
                     on:click={() => {
@@ -501,8 +501,8 @@
                     on:keyup={handleKeyboard_format}    
                     disabled='{prize1_2000_flag}'
                     type="text"
-                    minlength="6"
-                    maxlength="6"
+                    minlength="4"
+                    maxlength="4"
                     placeholder="Prize 20:00"/>
                 <button
                     on:click={() => {
@@ -531,8 +531,8 @@
                     on:keyup={handleKeyboard_format}    
                     disabled='{prize1_2200_flag}'
                     type="text"
-                    minlength="6"
-                    maxlength="6"
+                    minlength="4"
+                    maxlength="4"
                     placeholder="Prize 22:00"/>
                 <button
                     on:click={() => {

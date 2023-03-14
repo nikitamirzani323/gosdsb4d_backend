@@ -2,7 +2,9 @@ package models
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -135,13 +137,26 @@ func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int
 		case "prize_2200":
 			prize_time = " 20:55:00"
 		}
-		tglskrg := tglnow.Format("YYYY-MM-DD HH:mm:ss")
+		tglskrg := _getVietnamNight(idrecord)
+		tglnow2, _ := goment.New(tglskrg)
+		tglhariini := tglnow.Format("YYYY-MM-DD HH:mm:ss")
+		tglstart := tglnow2.Format("YYYY-MM-DD HH:mm:ss")
 		tglskrgend := tglnow.Format("YYYY-MM-DD") + prize_time
-		if tglskrg >= tglskrgend {
+		log.Println(tglhariini)
+		log.Println(tglstart)
+		log.Println(tglskrgend)
+		if tglhariini >= tglskrgend {
+			log.Println("level1")
 			statuspasaran = "ONLINE"
 		} else {
-			msg = "Offline"
+			log.Println("level2")
+			if tglhariini >= tglskrgend {
+				statuspasaran = "ONLINE"
+			} else {
+				msg = "Offline"
+			}
 		}
+		// statuspasaran = "OFFLINE"
 		if statuspasaran == "ONLINE" {
 			sql_update := `
 				UPDATE
@@ -225,4 +240,25 @@ func Save_Generatorvietnamenight(admin string) (helpers.Response, error) {
 	res.Time = time.Since(render_page).String()
 
 	return res, nil
+}
+func _getVietnamNight(idrecord int) string {
+	con := db.CreateCon()
+	ctx := context.Background()
+	var date string
+	date = ""
+	sql_select := `SELECT 
+					datevietnamnight
+					FROM ` + configs.DB_tbl_trx_vietnam_night + ` 
+					WHERE idvietnamnight = $1 
+				`
+
+	row := con.QueryRowContext(ctx, sql_select, idrecord)
+	switch e := row.Scan(&date); e {
+	case sql.ErrNoRows:
+		fmt.Println("CHECKDBTHREEFIELD - No rows were returned!")
+	case nil:
+	default:
+
+	}
+	return date
 }
