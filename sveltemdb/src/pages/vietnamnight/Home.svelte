@@ -159,7 +159,7 @@
                 },
                 body: JSON.stringify({
                     sdata: sData,
-                    page:"SDSB4DNIGHT-SAVE",
+                    page:"VIETNAMNIGHT-SAVE",
                     idrecord: parseInt(idrecord),
                     tipe: tipe,
                     prize: prize.toString(),
