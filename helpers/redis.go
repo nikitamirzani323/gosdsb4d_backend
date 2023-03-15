@@ -26,7 +26,7 @@ func RedisHealth() bool {
 
 	_, err := rdb.Ping(ctx).Result()
 
-	rdb.Close()
+	defer rdb.Close()
 	if err != nil {
 		flag = false
 	}
@@ -47,7 +47,7 @@ func SetRedis(key string, data interface{}, expire time.Duration) {
 	})
 	json, _ := json.Marshal(data)
 	err := rdb.Set(ctx, key, json, expire).Err()
-	rdb.Close()
+	defer rdb.Close()
 	ErrorCheck(err)
 }
 
@@ -67,7 +67,7 @@ func GetRedis(key string) (string, bool) {
 	if err == redis.Nil {
 		flag = false
 	}
-	rdb.Close()
+	defer rdb.Close()
 	return resultredis, flag
 }
 func DeleteRedis(key string) int {
@@ -80,5 +80,6 @@ func DeleteRedis(key string) int {
 		Password: dbPass,
 		DB:       dbName,
 	})
+	defer rdb.Close()
 	return int(rdb.Del(ctx, key).Val())
 }

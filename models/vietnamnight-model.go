@@ -140,17 +140,13 @@ func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int
 		tglskrg := _getVietnamNight(idrecord)
 		tglnow2, _ := goment.New(tglskrg)
 		tglhariini := tglnow.Format("YYYY-MM-DD HH:mm:ss")
-		tglstart := tglnow2.Format("YYYY-MM-DD HH:mm:ss")
-		tglskrgend := tglnow.Format("YYYY-MM-DD") + prize_time
+		tglpasaranend := tglnow2.Format("YYYY-MM-DD") + prize_time
 		log.Println(tglhariini)
-		log.Println(tglstart)
-		log.Println(tglskrgend)
-		if tglhariini >= tglskrgend {
-			log.Println("level1")
+		log.Println(tglpasaranend)
+		if tglhariini >= tglpasaranend {
 			statuspasaran = "ONLINE"
 		} else {
-			log.Println("level2")
-			if tglhariini >= tglskrgend {
+			if tglhariini >= tglpasaranend {
 				statuspasaran = "ONLINE"
 			} else {
 				msg = "Offline"
