@@ -53,7 +53,7 @@
                                 <a class="dropdown-item" use:link href="/japanday" style="font-size: 13px;">JAPAN - DAY</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" use:link href="/japannigh" style="font-size: 13px;">JAPAN - NIGHT</a>
+                                <a class="dropdown-item" use:link href="/japannight" style="font-size: 13px;">JAPAN - NIGHT</a>
                             </li>
                         </ul>
                     </li>

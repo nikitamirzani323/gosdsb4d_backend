@@ -9,6 +9,7 @@
 	import Sdsb4dnight from "./pages/sdsb4dnight/Sdsb4dnight.svelte";
 	import Vietnamnight from "./pages/vietnamnight/Vietnamnight.svelte";
 	import Japanday from "./pages/japanday/Japanday.svelte";
+	import Japannight from "./pages/japannight/Japannight.svelte";
 	import Prediksi from "./pages/prediksi/Prediksi.svelte";
 	import Login from "./pages/Login.svelte";
 	import NotFound from "./pages/NotFound.svelte";
@@ -36,6 +37,13 @@
 			}),
 			"/prediksi": wrap({
 				component: Prediksi,
+				props: {
+					table_header_font: table_header_font,
+					table_body_font: table_body_font,
+				},
+			}),
+			"/japannight": wrap({
+				component: Japannight,
 				props: {
 					table_header_font: table_header_font,
 					table_body_font: table_body_font,
