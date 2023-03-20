@@ -142,7 +142,7 @@ func JapanSave(c *fiber.Ctx) error {
 			"record":  nil,
 		})
 	}
-	_deleteredis_vietnamnight()
+	_deleteredis_japan(client.Tipe)
 	return c.JSON(result)
 }
 func JapanGeneratorSave(c *fiber.Ctx) error {
@@ -181,14 +181,25 @@ func JapanGeneratorSave(c *fiber.Ctx) error {
 
 	field := ""
 	switch client.Tipe {
-	case "prize1_1300":
-		field = "prize_1300"
-	case "prize1_1700":
-		field = "prize_1700"
-	case "prize1_2000":
-		field = "prize_2000"
-	case "prize1_2200":
-		field = "prize_2200"
+	case "prize1":
+		if client.Tipejapan == "day" {
+			field = "prize1_japanday"
+		} else {
+			field = "prize1_japannight"
+		}
+	case "prize2":
+		if client.Tipejapan == "day" {
+			field = "prize2_japanday"
+		} else {
+			field = "prize2_japannight"
+		}
+
+	case "prize3":
+		if client.Tipejapan == "day" {
+			field = "prize3_japanday"
+		} else {
+			field = "prize3_japannight"
+		}
 	}
 	//admin, field, prize, tipe, sData string, idrecord int
 	result, err := models.Save_japanGenerator(

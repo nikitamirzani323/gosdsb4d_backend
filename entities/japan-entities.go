@@ -12,7 +12,6 @@ type Model_japan struct {
 
 type Controller_japan struct {
 	Japan_tipe string `json:"japan_tipe"`
-	Japan_page int    `json:"japan_page"`
 }
 type Controller_japansave struct {
 	Sdata    string `json:"sdata" validate:"required"`

@@ -220,13 +220,13 @@ func Save_japanGenerator(admin, field, prize, tipe, sData string, idrecord int) 
 			// statuspasaran = "OFFLINE"
 			if statuspasaran == "ONLINE" {
 				sql_update := `
-				UPDATE
-				` + configs.DB_tbl_trx_japan_day + `
-				SET ` + field + ` =$1,
-				update_japanday=$2, updatedate_japanday=$3
-				WHERE idjapan_japanday=$4
+					UPDATE
+					` + configs.DB_tbl_trx_japan_night + `
+					SET ` + field + ` =$1,
+					update_japannight=$2, updatedate_japannight=$3
+					WHERE idjapan_japannight=$4
 			`
-				flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_trx_japan_day, "UPDATE",
+				flag_update, msg_update := Exec_SQL(sql_update, configs.DB_tbl_trx_japan_night, "UPDATE",
 					prize, admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"), idrecord)
 
 				if !flag_update {
@@ -254,7 +254,7 @@ func Save_Generatorjapan(admin, tipe string) (helpers.Response, error) {
 	flag := false
 
 	go func() {
-		for i := 0; i <= 799; i++ {
+		for i := 0; i <= 808; i++ {
 			tglnow2, _ := goment.New("2021-01-01")
 			tanggal := tglnow2.Add(i, "days").Format("YYYY-MM-DD")
 			if tipe == "day" { //day
