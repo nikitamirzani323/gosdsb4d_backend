@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"strconv"
 	"time"
 
@@ -97,7 +96,7 @@ func Save_vietnamenightHome(admin, tanggal, sData string, idrecord int) (helpers
 			`
 			field_column := configs.DB_tbl_trx_vietnam_night + tglnow.Format("YYYY")
 			idrecord_counter := Get_counter(field_column)
-			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_sdsb4d_day, "INSERT",
+			flag_insert, msg_insert := Exec_SQL(sql_insert, configs.DB_tbl_trx_vietnam_night, "INSERT",
 				tglnow.Format("YY")+strconv.Itoa(idrecord_counter), tanggal,
 				admin, tglnow.Format("YYYY-MM-DD HH:mm:ss"))
 
@@ -141,8 +140,8 @@ func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int
 		tglnow2, _ := goment.New(tglskrg)
 		tglhariini := tglnow.Format("YYYY-MM-DD HH:mm:ss")
 		tglpasaranend := tglnow2.Format("YYYY-MM-DD") + prize_time
-		log.Println(tglhariini)
-		log.Println(tglpasaranend)
+		fmt.Println(tglhariini)
+		fmt.Println(tglpasaranend)
 		if tglhariini >= tglpasaranend {
 			statuspasaran = "ONLINE"
 		} else {
