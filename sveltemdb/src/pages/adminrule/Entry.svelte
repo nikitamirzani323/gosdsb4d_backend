@@ -212,6 +212,8 @@
                                 <th colspan="2" NOWRAP>SDSB4D - NIGHT</th>
                                 <th colspan="2" NOWRAP>VIETNAM - DAY</th>
                                 <th colspan="2" NOWRAP>VIETNAM - NIGHT</th>
+                                <th colspan="2" NOWRAP>JAPAN - DAY</th>
+                                <th colspan="2" NOWRAP>JAPAN - NIGHT</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -244,6 +246,20 @@
                                         value="VIETNAMNIGHT-VIEW"/>
                                 </td>
                                 <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="JAPANDAY-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="JAPANNIGHT-VIEW"/>
+                                </td>
+                                <td width="*">VIEW</td>
                             </tr>
                             <tr>
                                 <td width="1%">
@@ -272,6 +288,20 @@
                                         bind:group={adminrule_rule_field}
                                         type="checkbox"
                                         value="VIETNAMNIGHT-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="JAPANDAY-SAVE"/>
+                                </td>
+                                <td width="*">SAVE</td>
+                                <td width="1%">
+                                    <input
+                                        bind:group={adminrule_rule_field}
+                                        type="checkbox"
+                                        value="JAPANNIGHT-SAVE"/>
                                 </td>
                                 <td width="*">SAVE</td>
                             </tr>

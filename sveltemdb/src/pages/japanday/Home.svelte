@@ -27,7 +27,7 @@
 	export let listHome = []
 	export let totalrecord = 0
     let dispatch = createEventDispatcher();
-	let title_page = "JAPAN - DAY"
+	let title_page = "JAPAN - DAY 10:00"
     let sData = "";
     let myModal_newentry = "";
     let tanggal_keluaran = "";
@@ -149,7 +149,7 @@
                 },
                 body: JSON.stringify({
                     sdata: sData,
-                    page:"japan-SAVE",
+                    page:"JAPANDAY-SAVE",
                     idrecord: parseInt(idrecord),
                     tipe: tipe,
                     tipejapan: "day",
