@@ -166,7 +166,7 @@ func Save_japanGenerator(admin, field, prize, tipe, sData string, idrecord int) 
 	if sData == "Edit" {
 		prize_time := ""
 		if tipe == "day" {
-			prize_time = " 09:55:00"
+			prize_time = " 09:55:00" // 10:00
 			tglskrg := _getJapan(idrecord, "day")
 			tglnow2, _ := goment.New(tglskrg)
 			tglhariini := tglnow.Format("YYYY-MM-DD HH:mm:ss")
@@ -201,7 +201,7 @@ func Save_japanGenerator(admin, field, prize, tipe, sData string, idrecord int) 
 				}
 			}
 		} else {
-			prize_time = " 17:55:00"
+			prize_time = " 15:55:00" // 16:00
 			tglskrg := _getJapan(idrecord, "night")
 			tglnow2, _ := goment.New(tglskrg)
 			tglhariini := tglnow.Format("YYYY-MM-DD HH:mm:ss")

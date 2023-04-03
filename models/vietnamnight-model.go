@@ -128,13 +128,13 @@ func Save_vietnamenightGenerator(admin, field, prize, sData string, idrecord int
 		prize_time := ""
 		switch field {
 		case "prize_1300":
-			prize_time = " 12:55:00"
+			prize_time = " 12:55:00" // 13:00
 		case "prize_1700":
-			prize_time = " 16:55:00"
+			prize_time = " 16:55:00" // 17:00
 		case "prize_2000":
-			prize_time = " 19:55:00"
+			prize_time = " 19:55:00" // 20:00
 		case "prize_2200":
-			prize_time = " 20:55:00"
+			prize_time = " 21:55:00" // 22:00
 		}
 		tglskrg := _getVietnamNight(idrecord)
 		tglnow2, _ := goment.New(tglskrg)

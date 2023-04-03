@@ -27,7 +27,7 @@
 	export let listHome = []
 	export let totalrecord = 0
     let dispatch = createEventDispatcher();
-	let title_page = "JAPAN - NIGHT 17:00"
+	let title_page = "JAPAN - NIGHT 16:00"
     let sData = "";
     let myModal_newentry = "";
     let tanggal_keluaran = "";
